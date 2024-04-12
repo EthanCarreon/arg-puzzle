@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Reply</title>
+    <style>
+        body {
+            font-size: 10px;
+        }
+        .message {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif  ;
+        }
+
+        .user-message {
+            color: #333;
+            font-size: 10px;
+        }
+
+        .assistant-message {
+            color: #333;
+            background-color: #e8e8e8;
+            font-size: 10px;
+        }
+
+        .assistant-avatar {
+            width: 15px;
+            height: 15px;
+            border-radius: 15%;
+            margin-right: 10px;
+        }
+        #chat-container {
+            max-width: 800px; 
+            height: 300px; 
+            overflow-y: scroll; 
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        #user-input {
+            width: 300px; 
+            height: 10px; 
+            margin-left: 175px;
+            opacity: 0.6; 
+        }
+        #send-button {
+            width: 100px; 
+            height: 10px; 
+        }
+    </style>
+    <script>
+
+        window.onload = function() {
+            var chatContainer = document.getElementById("chat-container");
+            var assistantMessage = document.createElement("div");
+            assistantMessage.className = "message assistant-message";
+            
+            var assistantAvatar = document.createElement("img");
+            assistantAvatar.className = "assistant-avatar";
+            assistantAvatar.src = "https://raw.githubusercontent.com/Nqla/fakeGPT/main/gpt/ChatGPTpfp.png";
+            assistantMessage.appendChild(assistantAvatar);
+            
+            assistantMessage.innerHTML = "Hello, welcome to ChatGPT! <br> Here is a list of prompts you can use to ask ChatGPT: <br> 1. Information <br> 2. Website <br> 3. Location  <br> 4. Time <br> 5. Password";
+            chatContainer.appendChild(assistantMessage);
+        };
+
+        function sendMessage(event) {
+
+                var userInput = document.getElementById("user-input").value;
+                var chatContainer = document.getElementById("chat-container");              
+                var wordReplies = {
+                    "hello": "Hi! How can I help you today?",
+                    "goodbye": "See you later!",
+                    "poop": "EWWWW BRUH",
+                    "password": "Unfortunately, you need a password in order for me to give you a clue for the next part. Type the password into the prompt whenever you are ready. If you get the password correctly. I will automatically let you know.",
+                    "information": "information:",
+                    "242": "Looks like you solved the rubik's cube puzzle. This part of the puzzle gives you this information to the final password: BE_____",
+                    "website": "here is a link to our website: www.e621.com",
+                    "location": "Morogoro, Tanzania <br> Christchurch, New Zealand <br> Apeldoorn, Netherlands",
+                    "312": "Looks like you solved the geography puzzle. This part of the puzzle gives you this information to the final password: __L_E__",
+                    "time": "21:32 <br>12:10 <br> 2:46",
+                };
+
+                var userMessage = document.createElement("div");
+                userMessage.className = "message user-message";
+                userMessage.innerHTML = userInput;
+                chatContainer.appendChild(userMessage);
+
+                var assistantMessage = document.createElement("div");
+                assistantMessage.className = "message assistant-message";
+
+                var assistantAvatar = document.createElement("img");
+                assistantAvatar.className = "assistant-avatar";
+                assistantAvatar.src = "https://raw.githubusercontent.com/Nqla/fakeGPT/main/gpt/ChatGPTpfp.png";
+                assistantMessage.appendChild(assistantAvatar);
+
+                if (userInput.includes("help")) {
+                    assistantMessage.innerHTML += "Unfortunately, I cannot help you with the puzzles. You must figure them out on your own.";
+                } else {
+                        if (userInput.toLowerCase() in wordReplies) {
+                        assistantMessage.innerHTML += wordReplies[userInput.toLowerCase()];
+                    } else {
+                        assistantMessage.innerHTML += "I do not know how to respond to that prompt.";
+                    }
+                }
+
+                chatContainer.appendChild(assistantMessage);
+
+                document.getElementById("user-input").value = "";
+                
+                event.preventDefault();
+
+                var userInput = document.getElementById('user-input');
+                var messageContainer = document.createElement('div');
+                var userMessage = document.createElement('div');
+
+                messageContainer.className = 'message';
+                userMessage.className = 'user-message';
+                userMessage.textContent = userInput.value;
+
+                messageContainer.appendChild(userMessage);
+                document.getElementById('chat-container').appendChild(messageContainer);
+
+                userInput.value = ''; 
+        }
+    </script>
+</head>
+<body>
+    <div id="chat-container">
+    </div>
+    <input type="text" id="user-input" placeholder="Enter your message..." onkeypress="if(event.keyCode===13) sendMessage()">
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>
